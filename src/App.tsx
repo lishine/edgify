@@ -1,11 +1,14 @@
-import * as React from "react";
-import "./styles.css";
+import * as React from 'react'
+import './styles.css'
+import { ThemeProvider } from 'theme-ui'
+import theme from './theme'
 
 export default function App() {
   return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Sta,,rt editing to see some magic happen!</h2>
-    </div>
-  );
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <input />
+      </div>
+    </ThemeProvider>
+  )
 }

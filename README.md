@@ -1,2 +1,0 @@
-# edgify
-Created with CodeSandbox

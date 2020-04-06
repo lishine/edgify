@@ -1,63 +1,40 @@
 /** @jsx jsx */
-import { jsx } from 'theme-ui'
-import { ThemeProvider, theme, CSSReset } from '@chakra-ui/core'
+import { jsx } from '@emotion/core'
+import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 import {
+  Box,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
   Icon,
+  IconProps,
+  InputProps,
 } from '@chakra-ui/core'
-import chackraTheme from './chackraTheme'
+import theme from './theme'
 import { Global } from '@emotion/core'
 
-// import theme from './theme'
+const IIcon = (props: IconProps) => <Icon {...props} size="10px" />
+const IInput = (props: InputProps) => (
+  <InputGroup>
+    <InputLeftElement children={<IIcon name="search" />} />
+    <Input
+      placeholder="image search"
+      {...{ borderRadius: '20px' }}
+      {...props}
+    />
+    <InputRightElement children={<IIcon name="close" />} />
+  </InputGroup>
+)
 
-// declare module 'react' {
-//   // tslint:disable-next-line: no-empty-interface
-//   interface DOMAttributes<T> extends SxProps {}
-// }
-
-// declare global {
-//   namespace JSX {
-//     // tslint:disable-next-line: no-empty-interface
-//     interface IntrinsicAttributes extends SxProps {}
-//   }
-// }
 export default function App() {
   return (
-    <ThemeProvider theme={chackraTheme}>
+    <ThemeProvider theme={theme}>
       <CSSReset />
-      <div sx={{ m: 10, width: '300px' }}>
-        <Global styles={{ body: { backgroundColor: 'green' } }} />
-        <Input
-          placeholder="Basic usage"
-          size="md"
-          sx={{ m: 10, width: '200px' }}
-        />
-        <InputGroup>
-          <InputLeftElement
-            color="gray.300"
-            fontSize="1.2em"
-            children={<Icon name="search" color="green.500" />}
-          />
-          <Input placeholder="image search" />
-          <InputRightElement
-            children={<Icon name="close" color="green.500" />}
-          />
-        </InputGroup>
-        <InputGroup sx={{ mt: 5 }}>
-          <InputLeftElement
-            color="gray.300"
-            fontSize="1.2em"
-            children={<Icon name="search" color="green.500" />}
-          />
-          <Input placeholder="image search" sx={{ borderRadius: '20px' }} />
-          <InputRightElement
-            children={<Icon name="close" color="green.500" />}
-          />
-        </InputGroup>
-      </div>
+      <Global styles={{ body: { backgroundColor: 'green' } }} />
+      <Box {...{ m: 10, width: '300px' }}>
+        <IInput />
+      </Box>
     </ThemeProvider>
   )
 }

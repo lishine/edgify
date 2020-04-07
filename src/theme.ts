@@ -1,8 +1,7 @@
-import { theme } from "@chakra-ui/core";
-export default {
-  ...theme,
+import { theme as defaultTheme } from '@chakra-ui/core'
+export const theme = {
+  ...defaultTheme,
   body: {
-    backgroundColor: 'green'
+    backgroundColor: 'green',
   },
-
 }

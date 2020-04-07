@@ -1,39 +1,19 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
-import {
-  Box,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  Icon,
-  IconProps,
-  InputProps,
-} from '@chakra-ui/core'
-import theme from './theme'
+import { Box } from '@chakra-ui/core'
 import { Global } from '@emotion/core'
 
-const IIcon = (props: IconProps) => <Icon {...props} size="10px" />
-const IInput = (props: InputProps) => (
-  <InputGroup>
-    <InputLeftElement children={<IIcon name="search" />} />
-    <Input
-      placeholder="image search"
-      {...{ borderRadius: '20px' }}
-      {...props}
-    />
-    <InputRightElement children={<IIcon name="close" />} />
-  </InputGroup>
-)
+import { theme } from './theme'
+
+import { Input } from './Input'
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CSSReset />
       <Global styles={{ body: { backgroundColor: 'green' } }} />
-      <Box {...{ m: 10, width: '300px' }}>
-        <IInput />
+      <Box {...{ m: 10, w: '300px' }}>
+        <Input onChange={() => console.log('here')} />
       </Box>
     </ThemeProvider>
   )

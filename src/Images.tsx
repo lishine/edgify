@@ -1,22 +1,25 @@
 import React from 'react'
-import { Box, Flex, Image } from '@chakra-ui/core'
+import { Flex, Image } from '@chakra-ui/core'
 
-export const Images = ({ urls, ...props }: { urls: any }) => {
-  console.log('urls', urls)
-  return (
-    <Flex
-      {...props}
-      {...{
-        w: 490,
-        h: 1200,
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        overflow: 'hidden',
-      }}
-    >
-      {urls.map((url: any) => (
-        <Image src={`${url.raw}&w=150`} alt="" {...{ mr: 4, mb: 4 }} />
-      ))}
-    </Flex>
-  )
-}
+export const Images = React.memo(({ urls, ...props }: { urls: any }) => (
+  <Flex
+    {...props}
+    {...{
+      w: 490,
+      h: 1200,
+      flexDirection: 'column',
+      flexWrap: 'wrap',
+      overflow: 'hidden',
+    }}
+  >
+    {urls.map((url: any, i: number) => (
+      <Image
+        maxWidth={150}
+        key={i}
+        src={`${url.raw}&w=150`}
+        alt=''
+        {...{ mr: 4, mb: 4 }}
+      />
+    ))}
+  </Flex>
+))

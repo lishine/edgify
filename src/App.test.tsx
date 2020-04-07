@@ -1,9 +1,15 @@
 import '@testing-library/jest-dom/extend-expect'
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import App from './App'
 
-test('React Testing Library works!', () => {
-  const { getByRole } = render(<App />)
-  expect(getByRole('searchbox')).toBeInTheDocument()
+test('React Testing Library works!', async () => {
+  const { getByRole, getByDisplayValue, findByText, findAllByRole } = render(
+    <App />
+  )
+  const input = getByRole('searchbox')
+  fireEvent.change(input, { target: { value: 'tomato' } })
+  getByDisplayValue('tomato')
+  await findByText('tomato')
+  expect((await findAllByRole('img')).length).toBeGreaterThan(10)
 })

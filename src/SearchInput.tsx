@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   Input,
   InputProps as ChakraInputProps,
@@ -8,35 +8,79 @@ import {
 } from '@chakra-ui/core'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { Icon } from './Icon'
+import { IconButton } from './IconButton'
+
 import { Modify } from './utils'
 
 type InputProps = Modify<
   ChakraInputProps,
   {
     onChange: (value: string) => void
+    isLoading: boolean
+    value: string
   }
 >
 
-export const SearchInput = ({ onChange, ...props }: InputProps) => {
-  const [debouncedCallback] = useDebouncedCallback((value: string) => {
+export const SearchInput = ({
+  onChange,
+  value,
+  isLoading,
+  ...props
+}: InputProps) => {
+  const [innerValue, setInnerValue] = useState('')
+
+  useEffect(() => {
+    setInnerValue(value)
+  }, [value])
+
+  const [debouncedHandleOnChange] = useDebouncedCallback((value: string) => {
     onChange(value)
   }, 700)
 
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value
+      setInnerValue(newValue)
+      debouncedHandleOnChange(newValue)
+    },
+    [debouncedHandleOnChange]
+  )
+  const handleReset = () => onChange('')
+
   return (
     <InputGroup>
-      <InputLeftElement children={<Icon name="search" />} />
-      <Input
-        type="search"
-        autoComplete="text"
-        placeholder="image search"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          debouncedCallback(e.target.value)
+      <InputLeftElement
+        children={
+          <IconButton
+            isLoading={isLoading}
+            aria-label='search'
+            icon='search'
+            size='sm'
+            variant='ghost'
+          />
         }
-        {...{ borderRadius: '20px' }}
+      />
+      <Input
+        variant='filled'
+        value={innerValue}
+        type='search'
+        autoComplete='text'
+        placeholder='image search'
+        onChange={handleChange}
+        {...{ rounded: 'xxl', bg: '#EEEEEE' }}
         {...props}
       />
-      <InputRightElement children={<Icon name="close" />} />
+      <InputRightElement
+        children={
+          <IconButton
+            size='xs'
+            variant='ghost'
+            aria-label='reset'
+            icon='close'
+            onClick={handleReset}
+          />
+        }
+      />
     </InputGroup>
   )
 }

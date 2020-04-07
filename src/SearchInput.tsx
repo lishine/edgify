@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Input as ChakraInput,
+  Input,
   InputProps as ChakraInputProps,
   InputGroup,
   InputLeftElement,
@@ -18,15 +18,17 @@ type InputProps = Modify<
   }
 >
 
-export const Input = ({ onChange, ...props }: InputProps) => {
+export const SearchInput = ({ onChange, ...props }: InputProps) => {
   const [debouncedCallback] = useDebouncedCallback((value: string) => {
     onChange(value)
-  }, 1000)
+  }, 700)
 
   return (
     <InputGroup>
       <InputLeftElement children={<Icon name="search" />} />
-      <ChakraInput
+      <Input
+        type="search"
+        autoComplete="text"
         placeholder="image search"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           debouncedCallback(e.target.value)

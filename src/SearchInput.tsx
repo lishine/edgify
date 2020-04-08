@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/core'
 import { useDebouncedCallback } from 'use-debounce'
 
-import { IconButton } from './IconButton'
+import { Icon, IconButton } from './Icon'
 
 import { Modify } from './utils'
 
@@ -16,17 +16,11 @@ type InputProps = Modify<
   ChakraInputProps,
   {
     onChange: (value: string) => void
-    isLoading: boolean
     value: string
   }
 >
 
-export const SearchInput = ({
-  onChange,
-  value,
-  isLoading,
-  ...props
-}: InputProps) => {
+export const SearchInput = ({ onChange, value, ...props }: InputProps) => {
   const [innerValue, setInnerValue] = useState('')
 
   useEffect(() => {
@@ -51,23 +45,30 @@ export const SearchInput = ({
     <InputGroup>
       <InputLeftElement
         children={
-          <IconButton
-            isLoading={isLoading}
-            aria-label='search'
-            icon='search'
-            size='sm'
-            variant='ghost'
+          <Icon
+            // isDisabled
+            // isLoading={isLoading}
+            // aria-label='search'
+            // icon='search'
+            name='search'
+            size='15px'
+            // variant='ghost'
           />
         }
       />
       <Input
         variant='filled'
         value={innerValue}
-        type='search'
+        // type='search'
         autoComplete='text'
         placeholder='image search'
         onChange={handleChange}
-        {...{ rounded: 'xxl', bg: '#EEEEEE' }}
+        {...{
+          rounded: 'xxl',
+          bg: '#EEEEEE',
+          _hover: { borderColor: '#AAAAAA' },
+          _focus: { borderColor: '#AAAAAA' },
+        }}
         {...props}
       />
       <InputRightElement

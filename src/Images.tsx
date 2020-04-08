@@ -1,7 +1,9 @@
 import React from 'react'
-import { Flex, Image } from '@chakra-ui/core'
+import { Flex, Image, Box } from '@chakra-ui/core'
 
-export const Images = React.memo(({ urls, ...props }: { urls: any }) => (
+const imageWidth = 150
+
+export const Images = React.memo(({ data, ...props }: { data: any }) => (
   <Flex
     {...props}
     {...{
@@ -12,14 +14,19 @@ export const Images = React.memo(({ urls, ...props }: { urls: any }) => (
       overflow: 'hidden',
     }}
   >
-    {urls.map((url: any, i: number) => (
-      <Image
-        maxWidth={150}
-        key={i}
-        src={`${url.raw}&w=150`}
-        alt=''
-        {...{ mr: 4, mb: 4 }}
-      />
+    {data?.results.map((result: any) => (
+      <Box {...{ mr: 4, mb: 4, position: 'relative', w: imageWidth }} key={result.id}>
+        <Image
+          minWidth={imageWidth}
+          position='absolute'
+          src={`${result.urls.raw}&w=${imageWidth}`}
+          // alt={result.alt_description}
+        />
+        <Box
+          borderWidth={2}
+          height={(result.height * imageWidth) / result.width}
+        />
+      </Box>
     ))}
   </Flex>
 ))

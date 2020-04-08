@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Grid, Box } from '@chakra-ui/core'
+import { Text, Grid, Box, Progress } from '@chakra-ui/core'
 import wretch from 'wretch'
 import { useQuery } from 'react-query'
 
@@ -12,19 +12,14 @@ const fetch = (searchTerm: string) => {
     `https://api.unsplash.com/search/photos?client_id=e72d3972ba3ff93da57a4c0be4f0b7323346c136b73794e2a01226216076655b&per_page=20&query=${searchTerm}`
   )
     .get()
+    .setTimeout(1000)
     .json()
 }
 
 export const Gallery = () => {
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [urls, setUrls] = React.useState<string[]>([])
-  const { status } = useQuery([searchTerm], fetch, {
-    onSuccess: (data: any) => {
-      setUrls(data.results.map((r: any) => r.urls))
-    },
-  })
+  const { status, data } = useQuery([searchTerm], fetch)
 
-  console.log('status', status)
   return (
     <Grid
       {...{
@@ -36,15 +31,29 @@ export const Gallery = () => {
     >
       <Box {...{ mx: 10, justifySelf: 'stretch' }}>
         <SearchInput
-          isLoading={status === 'isLoading'}
           value={searchTerm}
           onChange={(value) => setSearchTerm(value)}
         />
+        {status === 'loading' && (
+          <Box position='relative'>
+            <Progress
+              {...{
+                position: 'absolute',
+                rounded: 'xxl',
+                w: '100%',
+                mt: 4,
+                color: 'gray',
+              }}
+              value={60}
+              hasStripe
+              isAnimated
+            />
+          </Box>
+        )}
       </Box>
-
       <Box>
         <Text {...{ my: 10, fontWeight: 600 }}>{searchTerm}</Text>
-        <Images {...{}} urls={urls} />
+        <Images {...{}} data={data} />
       </Box>
     </Grid>
   )

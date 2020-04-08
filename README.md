@@ -4,9 +4,9 @@
 
 ### TODO
 
-- images loading outline
-- loading clearer
+- images enable alt
 - central state
 - infinite loading
 - cache
 - performance
+- more tests

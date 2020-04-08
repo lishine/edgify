@@ -3,7 +3,7 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import App from './App'
 
-test('React Testing Library works!', async () => {
+test('New search', async () => {
   const { getByRole, getByDisplayValue, findByText, findAllByRole } = render(
     <App />
   )

@@ -6,15 +6,13 @@ import { useQuery } from 'react-query'
 import { SearchInput } from './SearchInput'
 import { Images } from './Images'
 
-const fetch = (searchTerm: string) => {
-  console.log('fetch')
-  return wretch(
+const fetch = (searchTerm: string) =>
+  wretch(
     `https://api.unsplash.com/search/photos?client_id=e72d3972ba3ff93da57a4c0be4f0b7323346c136b73794e2a01226216076655b&per_page=20&query=${searchTerm}`
   )
     .get()
     .setTimeout(1000)
     .json()
-}
 
 export const Gallery = () => {
   const [searchTerm, setSearchTerm] = React.useState('')

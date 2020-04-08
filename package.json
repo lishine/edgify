@@ -5,22 +5,23 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
-    "@types/react-dom": "16.9.5",
-    "@testing-library/react": "10.0.2",
-    "@testing-library/jest-dom": "4.2.4",
     "@chakra-ui/core": "0.7.0",
     "@emotion/core": "10.0.28",
     "@emotion/styled": "10.0.27",
+    "@testing-library/jest-dom": "4.2.4",
+    "@testing-library/react": "10.0.2",
+    "@types/react-dom": "16.9.5",
     "emotion-theming": "10.0.27",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-query": "1.2.1",
-    "react-scripts": "3.3.0",
+    "react-scripts": "3.4.1",
     "use-debounce": "3.4.1",
     "wretch": "1.7.1"
   },
   "devDependencies": {
     "@types/react": "16.9.19",
+    "@types/react-query": "^1.1.1",
     "typescript": "3.7.5"
   },
   "scripts": {
@@ -29,5 +30,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

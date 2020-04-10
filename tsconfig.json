@@ -2,10 +2,10 @@
   "include": [
     "./src/*",
     "src/Gallery/Gallery.tsx",
-    "src/Gallery/Icon.tsx",
+    "src/Gallery/SearchInput/Icon.tsx",
     "src/Gallery/Images.tsx",
     "src/Gallery/Progress.tsx",
-    "src/Gallery/SearchInput.tsx",
+    "src/Gallery/SearchInput/SearchInput.tsx",
     "src/Gallery/Title.tsx",
     "craco.config.js"
   ],

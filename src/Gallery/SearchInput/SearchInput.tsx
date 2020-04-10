@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Input, InputProps, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/core'
 import { useDebouncedCallback } from 'use-debounce'
-
-import { useGalleryState } from './GalleryState'
+import { useGalleryContext } from '../Gallery'
 import { Icon, IconButton } from './Icon'
-
-// import { Modify } from '../utils'
-
-// type InputProps = Modify<
-//   ChakraInputProps,
-//   {
-//     onChange: (value: string) => void
-//     value: string
-//   }
-// >
 
 export const SearchInput = (props: InputProps) => {
   console.log('rendering SearchInput')
-  const setSearchTerm = useGalleryState((state) => state.setSearchTerm)
-  const searchTerm = useGalleryState((state) => state.searchTerm)
+
+  const setSearchTerm = useGalleryContext((state) => state.setSearchTerm)
+  const searchTerm = useGalleryContext((state) => state.searchTerm)
   const [innerValue, setInnerValue] = useState('')
 
   useEffect(() => {
@@ -39,23 +29,10 @@ export const SearchInput = (props: InputProps) => {
 
   return (
     <InputGroup>
-      <InputLeftElement
-        children={
-          <Icon
-            // isDisabled
-            // isLoading={isLoading}
-            // aria-label='search'
-            // icon='search'
-            name='search'
-            size='15px'
-            // variant='ghost'
-          />
-        }
-      />
+      <InputLeftElement children={<Icon name='search' size='15px' />} />
       <Input
         variant='filled'
         value={innerValue}
-        // type='search'
         autoComplete='text'
         placeholder='image search'
         onChange={handleChange}

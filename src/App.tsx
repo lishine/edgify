@@ -1,5 +1,4 @@
-import React, { memo, useState, useReducer } from 'react'
-import { Button } from '@chakra-ui/core'
+import React from 'react'
 
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 import { Global } from '@emotion/core'

@@ -1,12 +1,13 @@
 import React from 'react'
 import { Flex, FlexProps, Image, Box } from '@chakra-ui/core'
 
-import { useGalleryState } from './GalleryState'
+import { useGalleryContext } from './Gallery'
 
 const imageWidth = 150
 
 export const Images = (props: FlexProps) => {
-  const data = useGalleryState((state) => state.data)
+  const data = useGalleryContext((state) => state.data)
+
   console.log('rendering Images', data)
   return (
     <Flex {...props} {...{ w: 490, h: 1200, flexDirection: 'column', flexWrap: 'wrap', overflow: 'hidden' }}>

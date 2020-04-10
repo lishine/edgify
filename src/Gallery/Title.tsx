@@ -1,11 +1,11 @@
 import React from 'react'
 import { Text } from '@chakra-ui/core'
 
-import { useGalleryState } from './GalleryState'
+import { useGalleryContext } from './Gallery'
 
 export const Title = () => {
-  const searchTerm = useGalleryState((state) => state.searchTerm)
-  console.log('rendering Title')
+  const searchTerm = useGalleryContext((state) => state.searchTerm)
 
+  console.log('rendering Title')
   return <Text {...{ my: 10, fontWeight: 600 }}>{searchTerm}</Text>
 }

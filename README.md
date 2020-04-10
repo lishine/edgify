@@ -10,3 +10,4 @@
 - cache
 - performance
 - more tests
+- input auto focus

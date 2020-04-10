@@ -1,13 +1,17 @@
 {
   "include": [
-    "./src/*"
+    "./src/*",
+    "src/Gallery/Gallery.tsx",
+    "src/Gallery/Icon.tsx",
+    "src/Gallery/Images.tsx",
+    "src/Gallery/Progress.tsx",
+    "src/Gallery/SearchInput.tsx",
+    "src/Gallery/Title.tsx",
+    "craco.config.js"
   ],
   "compilerOptions": {
     "strict": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "module": "esnext",
     "target": "es5",
     "noImplicitAny": true,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Progress as _Progress } from '@chakra-ui/core'
+import { Box, Progress as CProgress } from '@chakra-ui/core'
 
 import { useGalleryContext } from './Gallery'
 
@@ -13,7 +13,7 @@ export const Progress = () => {
   console.log('rendering Progress')
   return (
     <Box position='relative'>
-      <_Progress
+      <CProgress
         {...{ position: 'absolute', rounded: 'xxl', w: '100%', mt: 4, color: 'gray' }}
         value={60}
         hasStripe

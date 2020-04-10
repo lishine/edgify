@@ -5,8 +5,6 @@ import { useGalleryContext } from '../Gallery'
 import { Icon, IconButton } from './Icon'
 
 export const SearchInput = (props: InputProps) => {
-  console.log('rendering SearchInput')
-
   const setSearchTerm = useGalleryContext((state) => state.setSearchTerm)
   const searchTerm = useGalleryContext((state) => state.searchTerm)
   const [innerValue, setInnerValue] = useState('')
@@ -27,6 +25,7 @@ export const SearchInput = (props: InputProps) => {
 
   const handleReset = () => setSearchTerm('')
 
+  console.log('rendering SearchInput')
   return (
     <InputGroup>
       <InputLeftElement children={<Icon name='search' size='15px' />} />
@@ -36,6 +35,7 @@ export const SearchInput = (props: InputProps) => {
         autoComplete='text'
         placeholder='image search'
         onChange={handleChange}
+        type='search'
         {...{ rounded: 'xxl', bg: '#EEEEEE', _hover: { borderColor: '#AAAAAA' }, _focus: { borderColor: '#AAAAAA' } }}
         {...props}
       />

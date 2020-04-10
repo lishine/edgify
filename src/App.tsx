@@ -12,7 +12,14 @@ export default () => (
   <ThemeProvider theme={theme}>
     <ReactQueryConfigProvider config={{ refetchAllOnWindowFocus: false }}>
       <CSSReset />
-      <Global styles={{ body: { backgroundColor: 'white' } }} />
+      <Global
+        styles={{
+          '::-webkit-search-cancel-button': {
+            '-webkit-appearance': 'none',
+          },
+          body: { backgroundColor: 'white' },
+        }}
+      />
       <Gallery />
     </ReactQueryConfigProvider>
   </ThemeProvider>

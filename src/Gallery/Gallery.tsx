@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, Box, Heading } from '@chakra-ui/core'
+import { Grid, Box, Heading, Button } from '@chakra-ui/core'
 import wretch from 'wretch'
 import { useQuery } from 'react-query'
 
@@ -8,7 +8,7 @@ import { Images } from './Images'
 import { Progress } from './Progress'
 import { Title } from './Title'
 
-import { createContext } from '../utils'
+import { createContext } from '../lib/contextStoreD'
 
 const fetch = (searchTerm: string) =>
   wretch(
@@ -19,6 +19,7 @@ const fetch = (searchTerm: string) =>
     .json()
 
 const useGalleryState = () => {
+  console.log('state')
   const [searchTerm, setSearchTerm] = useState('')
   const { status, data } = useQuery([searchTerm], fetch)
 
@@ -36,7 +37,7 @@ export const Gallery = () => (
   <Provider>
     <Grid {...{ mx: 'auto', mt: 10, w: 850 }} style={{ placeItems: 'center' }}>
       <Heading size='lg' {...{ mb: 6 }}>
-        Search Unsplash images
+        Search Unsplash
       </Heading>
       <Box {...{ mx: 10, justifySelf: 'stretch' }}>
         <SearchInput />

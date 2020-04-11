@@ -1,26 +1,26 @@
 import React from 'react'
 
-import { ThemeProvider, CSSReset } from '@chakra-ui/core'
-import { Global } from '@emotion/core'
+import { CSSReset, Button, Flex, Heading, Stack, useToast } from '@chakra-ui/core'
+import { Global, css } from '@emotion/core'
 import { ReactQueryConfigProvider } from 'react-query'
 
-import { theme } from './theme'
-
 import { Gallery } from './Gallery/Gallery'
+import { PerformanceTest } from './lib/PerformanceTest'
 
 export default () => (
-  <ThemeProvider theme={theme}>
-    <ReactQueryConfigProvider config={{ refetchAllOnWindowFocus: false }}>
-      <CSSReset />
-      <Global
-        styles={{
-          '::-webkit-search-cancel-button': {
-            '-webkit-appearance': 'none',
-          },
-          body: { backgroundColor: 'white' },
-        }}
-      />
-      <Gallery />
-    </ReactQueryConfigProvider>
-  </ThemeProvider>
+  <ReactQueryConfigProvider config={{ refetchAllOnWindowFocus: false }}>
+    <CSSReset />
+    <Global
+      styles={css`
+        ::-webkit-search-cancel-button {
+          -webkit-appearance: 'none';
+        }
+        body: {
+          background-color: white;
+        }
+      `}
+    />
+    <PerformanceTest />
+    <Gallery />
+  </ReactQueryConfigProvider>
 )

@@ -22,6 +22,7 @@
     "react-query": "1.2.1",
     "react-scripts": "3.4.1",
     "react-use-context-selector": "^1.0.2",
+    "use-context-selector": "^1.1.1",
     "use-debounce": "3.4.1",
     "wretch": "1.7.1",
     "yarn": "^1.22.4"
@@ -41,7 +42,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^2.4.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
     "husky": "^4.2.3",
     "prettier": "^1.19.1",
     "prettier-config-standard": "^1.0.1",

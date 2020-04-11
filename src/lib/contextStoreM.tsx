@@ -3,13 +3,13 @@ import { useContextSelector, createSelectorProvider } from 'react-use-context-se
 
 function useStateFactory<T>(Context: React.Context<T>) {
   return function<S>(fn: (s: T) => S) {
-    return useContextSelector(Context, fn)
+    return useContextSelector(Context, fn) // eslint-disable-line
   }
 }
 export function createContext<T>(useCreateState: () => T) {
   const Context = React.createContext({} as T)
   const SelectorProvider = createSelectorProvider(Context)
-  const useContext = useStateFactory(Context)
+  const useContext = useStateFactory(Context) // eslint-disable-line
 
   const Provider: FC = ({ children }) => {
     const state = useCreateState()

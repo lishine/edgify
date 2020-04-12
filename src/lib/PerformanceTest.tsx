@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Heading, useToast, Button, Flex, Box, Stack, SimpleGrid } from '@chakra-ui/core'
+import { Heading, useToast, Button, Flex, Stack, SimpleGrid } from '@chakra-ui/core'
 
 import { createContext } from './contextStoreD'
 
@@ -8,7 +8,7 @@ const createRange = (r: number) => [...Array(r).keys()]
 const createAr = (r: number) => createRange(r).map((i) => i * 10)
 
 const usePerformanceState = () => {
-  const [ar, setAr] = useState(createAr(N))
+  const [ar] = useState(createAr(N))
   const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
 
   console.log('rendering Provider')

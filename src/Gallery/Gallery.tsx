@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, Box, Heading, Button } from '@chakra-ui/core'
+import { Grid, Box, Heading } from '@chakra-ui/core'
 import wretch from 'wretch'
 import { useQuery } from 'react-query'
 
@@ -19,10 +19,10 @@ const fetch = (searchTerm: string) =>
     .json()
 
 const useGalleryState = () => {
-  console.log('state')
   const [searchTerm, setSearchTerm] = useState('')
   const { status, data } = useQuery([searchTerm], fetch)
 
+  console.log('state')
   return {
     isLoading: status === 'loading',
     data,

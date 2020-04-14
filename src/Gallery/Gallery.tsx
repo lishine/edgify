@@ -4,7 +4,7 @@ import wretch from 'wretch'
 import { useQuery } from 'react-query'
 
 import { SearchInput } from './SearchInput/SearchInput'
-import { Images } from './Images'
+import { Images } from './List/List'
 import { Progress } from './Progress'
 import { Title } from './Title'
 
@@ -35,16 +35,16 @@ export const { Provider, useContext: useGalleryContext } = createContext(useGall
 
 export const Gallery = () => (
   <Provider>
-    <Grid {...{ mx: 'auto', mt: 10, w: 850 }} style={{ placeItems: 'center' }}>
+    <Grid {...{ mx: 'auto', mt: 10, w: 1550 }} style={{ placeItems: 'center' }}>
       <Heading size='lg' {...{ mb: 6 }}>
         Search Unsplash
       </Heading>
-      <Box {...{ mx: 10, justifySelf: 'stretch' }}>
-        {/* <SearchInput /> */}
-        {/* <Progress /> */}
+      <Box {...{ w: 1000, max: 'auto' }}>
+        <SearchInput />
+        <Progress />
       </Box>
       <Box>
-        {/* <Title /> */}
+        <Title />
         <Images />
       </Box>
     </Grid>

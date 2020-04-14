@@ -1,0 +1,29 @@
+      // const sortedIndexes: number[] = []
+      // const _prevAccHeights = [...prevAccHeights]
+      // elements.forEach(({ height }) => {
+      //   const accHeights = _prevAccHeights.map((prevAccHeight) => height + prevAccHeight)
+      //   const minAccHeight = Math.min(...accHeights)
+      //   const index = accHeights.findIndex((accHeight) => accHeight === minAccHeight)
+      //   sortedIndexes.push(index)
+      //   _prevAccHeights[index] = Infinity
+      // })
+      // console.log('sortedIndexes', sortedIndexes)
+
+// ;<Flex {...props} {...{ w: 490, h: 1200, flexDirection: 'column', flexWrap: 'wrap', overflow: 'hidden' }}>
+//   {data?.results.map((result: any) => (
+//     <Box key={result.id} {...{ mr: 4, mb: 4, position: 'relative', w: imageWidth }}>
+//       <Image
+//         minWidth={imageWidth}
+//         position='absolute'
+//         src={`${result.urls.raw}&w=${imageWidth}`}
+//         // alt={result.alt_description}
+//       />
+//       <Box borderWidth={2} height={(result.height * imageWidth) / result.width} />
+//     </Box>
+//   ))}
+// </Flex>
+// alt={result.alt_description}
+// const result = useGalleryContext((state) => state.data?.results[index])
+{
+  /* <Box borderWidth={2} height='100%' /> */
+}

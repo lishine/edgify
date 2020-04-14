@@ -8,18 +8,18 @@ import { Images } from './Images'
 import { Progress } from './Progress'
 import { Title } from './Title'
 
-import { createContext } from '../lib/contextStoreD'
+import { createContext } from '../lib/contextStore'
 
 const fetch = (searchTerm: string) =>
   wretch(
-    `https://api.unsplash.com/search/photos?client_id=e72d3972ba3ff93da57a4c0be4f0b7323346c136b73794e2a01226216076655b&per_page=20&query=${searchTerm}`
+    `https://api.unsplash.com/search/photos?client_id=e72d3972ba3ff93da57a4c0be4f0b7323346c136b73794e2a01226216076655b&per_page=30&query=${searchTerm}`
   )
     .get()
     .setTimeout(1000)
     .json()
 
 const useGalleryState = () => {
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('a')
   const { status, data } = useQuery([searchTerm], fetch)
 
   console.log('state')
@@ -40,11 +40,11 @@ export const Gallery = () => (
         Search Unsplash
       </Heading>
       <Box {...{ mx: 10, justifySelf: 'stretch' }}>
-        <SearchInput />
-        <Progress />
+        {/* <SearchInput /> */}
+        {/* <Progress /> */}
       </Box>
       <Box>
-        <Title />
+        {/* <Title /> */}
         <Images />
       </Box>
     </Grid>

@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Grid, Box, Heading } from '@chakra-ui/core'
 
 import { SearchInput } from './SearchInput/SearchInput'
-import { Images } from './List/List'
+import { List } from './List'
 import { Progress } from './Progress'
 import { Title } from './Title'
 
-import { Provider } from './_gallery'
+import { Provider } from '../_gallery'
+import { Config } from '../types'
 
-export const Gallery = () => (
-  <Provider>
+export const Gallery: FC<Config> = (props) => (
+  <Provider init={props}>
     <Grid {...{ mx: 'auto', mt: 10, w: 1550 }} style={{ placeItems: 'center' }}>
       <Heading size='lg' {...{ mb: 6 }}>
         Search Unsplash
@@ -20,7 +21,7 @@ export const Gallery = () => (
       </Box>
       <Box>
         <Title />
-        <Images />
+        <List />
       </Box>
     </Grid>
   </Provider>

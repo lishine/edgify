@@ -9,6 +9,7 @@
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "standard-react", "prettier"],
   "plugins": ["prettier", "@typescript-eslint/eslint-plugin", "react", "react-hooks"],
   "rules": {
+    "no-unreachable": "warn",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/no-var-requires": 0,

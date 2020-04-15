@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { Input, InputProps, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/core'
-import { useDebouncedCallback } from 'use-debounce'
-import { useGalleryContext } from '../_gallery'
+import { useDebounce } from 'react-use'
+import { useGalleryContext } from '../../_gallery'
 import { Icon, IconButton } from './Icon'
 
 export const SearchInput = (props: InputProps) => {
-  const setSearchTerm = useGalleryContext((state) => state.setSearchTerm)
-  const searchTerm = useGalleryContext((state) => state.searchTerm)
+  const dispatch = useGalleryContext(([_, dispatch]) => dispatch)
+  const searchTerm = useGalleryContext(([state]) => state.searchTerm)
   const [innerValue, setInnerValue] = useState('')
 
   useEffect(() => {
     setInnerValue(searchTerm)
   }, [searchTerm])
 
-  const [setDebounced] = useDebouncedCallback((value: string) => {
-    setSearchTerm(value)
-  }, 700)
+  useDebounce(
+    () => {
+      dispatch({ type: 'setSearchTerm', payload: innerValue })
+    },
+    700,
+    [innerValue]
+  )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
     setInnerValue(newValue)
-    setDebounced(newValue)
   }
 
-  const handleReset = () => setSearchTerm('')
+  const handleReset = () => dispatch({ type: 'setSearchTerm', payload: '' })
 
   console.log('rendering SearchInput')
   return (

@@ -1,17 +1,10 @@
 {
-  "include": [
-    "./src/*",
-    "src/Gallery/Gallery.tsx",
-    "src/Gallery/SearchInput/Icon.tsx",
-    "src/Gallery/List/Images.tsx",
-    "src/Gallery/Progress.tsx",
-    "src/Gallery/SearchInput/SearchInput.tsx",
-    "src/Gallery/Title.tsx",
-    "craco.config.js"
-  ],
   "compilerOptions": {
     "strict": true,
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "module": "esnext",
     "target": "es5",
     "noImplicitAny": true,
@@ -24,7 +17,7 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "downlevelIteration": true,
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "esModuleInterop": true,
     "jsx": "react",
     "allowJs": true,
@@ -34,5 +27,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true
-  }
+  },
+  "include": [
+    "src"
+  ]
 }

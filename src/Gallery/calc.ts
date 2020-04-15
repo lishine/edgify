@@ -1,38 +1,20 @@
-export interface Source {
-  urls: {
-    raw: string
-    [key: string]: any
-  }
-  id: string | number
-  height: number
-  width: number
-}
-
-interface Tcol {
-  offset: number
-  accHeight: number
-  height: number
-  url: string
-  id: string | number
-}
-
-export interface TRow {
-  cols: Tcol[]
-  height: number
-}
+import { Source, TRow, Tcol, Config } from './types'
 
 // images data comes with full height and width
 export const calcScaledHeight = (height: number, width: number, imageWidth: number) => (height * imageWidth) / width
 
 // purpose - to arrange items in columns and translate them up or down according to the previous items
-export const calcRows = (sources: Source[], rows: TRow[], N_COLS: number, imageWidth: number) => {
+export const calcRows = (sources: Source[], _rows: TRow[], config: Config) => {
+  const { nCols, imageWidth } = config
   let elements: Source[] = []
+  const rows = [..._rows]
+  const startRowLength = rows.length
   sources?.forEach((r, sourceIndex) => {
     elements.push(r)
-    if (sourceIndex % N_COLS === N_COLS - 1) {
-      const rowIndex = Math.floor(sourceIndex / N_COLS)
+    if (sourceIndex % nCols === nCols - 1) {
+      const rowIndex = startRowLength + Math.floor(sourceIndex / nCols)
       // previous accumulated heights
-      const prevAccHeights = rowIndex === 0 ? Array(N_COLS).fill(0) : rows[rowIndex - 1].cols.map((c) => c.accHeight)
+      const prevAccHeights = rowIndex === 0 ? Array(nCols).fill(0) : rows[rowIndex - 1].cols.map((c) => c.accHeight)
       const maxPrevAccHeight = rowIndex === 0 ? 0 : Math.max(...rows[rowIndex - 1].cols.map((c) => c.accHeight))
 
       // Position items in columns

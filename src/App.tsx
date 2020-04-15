@@ -2,13 +2,14 @@ import React from 'react'
 
 import { CSSReset } from '@chakra-ui/core'
 import { Global } from '@emotion/core'
-import { ReactQueryConfigProvider } from 'react-query'
+// import { ReactQueryConfigProvider } from 'react-query'
 
-import { Gallery } from './Gallery/Gallery'
+import { Gallery } from './Gallery/$gallery/Gallery'
 
 export default () => {
   return (
-    <ReactQueryConfigProvider config={{ refetchAllOnWindowFocus: false }}>
+    // <ReactQueryConfigProvider config={{ refetchAllOnWindowFocus: false }}>
+    <>
       <CSSReset />
       <Global
         styles={{
@@ -20,7 +21,21 @@ export default () => {
           },
         }}
       />
-      <Gallery />
-    </ReactQueryConfigProvider>
+      <Gallery
+        {...{
+          url:
+            'https://api.unsplash.com/search/photos?client_id=e72d3972ba3ff93da57a4c0be4f0b7323346c136b73794e2a01226216076655b',
+          imageWidth: 250,
+          height: window.innerHeight - 300,
+          nCols: 2,
+          gapX: 10,
+          gapY: 10,
+          perPage: 30,
+          overscanCount: 5,
+          threshold: 10,
+        }}
+      />
+    </>
+    // </ReactQueryConfigProvider>
   )
 }

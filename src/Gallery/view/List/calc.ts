@@ -1,13 +1,9 @@
-import { Source, TRow, Tcol, Config } from './types'
-
-// images data comes with full height and width
-export const calcScaledHeight = (height: number, width: number, imageWidth: number) => (height * imageWidth) / width
+import { Source, TRow, Tcol } from '../../types'
 
 // purpose - to arrange items in columns and translate them up or down according to the previous items
-export const calcRows = (sources: Source[], _rows: TRow[] = [], config: Config) => {
-  const { nCols, imageWidth } = config
+export const createRowsMasonry = (sources: Source[], existingRows: TRow[] = [], nCols: number) => {
   let elements: Source[] = []
-  const rows = [..._rows]
+  const rows = [...existingRows]
   const startRowLength = rows.length
   sources?.forEach((r, sourceIndex) => {
     elements.push(r)
@@ -28,18 +24,15 @@ export const calcRows = (sources: Source[], _rows: TRow[] = [], config: Config) 
       const cols: Tcol[] = []
       elements.forEach((el, elIndex) => {
         const colIndex = sortedIndexes[elIndex]
-        const url = el.urls.raw
-        const { id } = el
-        const height = calcScaledHeight(el.height, el.width, imageWidth)
+        const { height } = el
         const prevAccHeight = prevAccHeights[colIndex]
         const accHeight = height + prevAccHeight
         const margin = prevAccHeight - maxPrevAccHeight
         cols[colIndex] = {
+          ...el,
           offset: Math.floor(margin),
           accHeight,
           height: Math.floor(height),
-          id,
-          url,
         }
       })
 

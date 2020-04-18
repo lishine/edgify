@@ -1,0 +1,35 @@
+const reducer = (state: TState, action: { type: Actions; payload?: any }) =>
+  ({
+    setSearchTerm: () => {
+      console.log(' action.payload', action.payload)
+      return {
+        ...state,
+        searchTerm: action.payload,
+        // page: initialState.page,
+        // rows: initialState.rows,
+      }
+    },
+    // fetchMore: () => ({ ...state, fetchingMore: true }),
+    // setRows: () => ({ ...state, rows: action.payload }),
+    setLoading: () => ({ ...state, isLoading: action.payload }),
+    reset: () => initialState,
+    fetchMoreSuccess: () => ({ ...state, page: state.page + 1, fetchingMore: false }),
+  }[action.type]?.() ?? state)
+
+  const [{ searchTerm, isLoading }, dispatch] = useReducer(
+    reducer,
+    initialState,
+    (state) => ({ ...state, searchTerm: 'b' }),
+    'gallery'
+  )
+
+interface TState {
+  searchTerm: string
+  page: number
+  fetchingMore: boolean
+  isLoading: boolean
+}
+
+type Actions = 'setSearchTerm' | 'reset' | 'setLoading'
+
+const initialState: TState = { searchTerm: '', page: 1, fetchingMore: false, isLoading: false }

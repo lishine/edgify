@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Progress as CProgress } from '@chakra-ui/core'
 
-import { useGalleryContext } from '../_gallery'
+import { useGalleryContext } from '../logic'
 
 export const Progress = () => {
-  const isLoading = useGalleryContext(([state]) => state.isLoading)
+  const isLoading = useGalleryContext((state) => state.isLoading)
 
   if (!isLoading) {
     return null

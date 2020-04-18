@@ -1,11 +1,9 @@
 export interface Source {
-  urls: {
-    raw: string
-    [key: string]: any
-  }
   id: string | number
   height: number
   width: number
+  url: string
+  [key: string]: any
 }
 
 export interface Tcol {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Input, InputProps, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/core'
 import { useDebounce } from 'react-use'
-import { useGalleryContext } from '../../_gallery'
+import { useGalleryContext } from '../../logic'
 import { Icon, IconButton } from './Icon'
 
 export const SearchInput = (props: InputProps) => {
-  const dispatch = useGalleryContext(([, dispatch]) => dispatch)
-  const searchTerm = useGalleryContext(([state]) => state.searchTerm)
+  const setSearchTerm = useGalleryContext((state) => state.setSearchTerm)
+  const searchTerm = useGalleryContext((state) => state.searchTerm)
   const [innerValue, setInnerValue] = useState('')
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export const SearchInput = (props: InputProps) => {
   useDebounce(
     () => {
       if (searchTerm !== innerValue) {
-        dispatch({ type: 'setSearchTerm', payload: innerValue })
+        setSearchTerm(innerValue)
       }
     },
     500,
@@ -28,7 +28,7 @@ export const SearchInput = (props: InputProps) => {
     setInnerValue(newValue)
   }
 
-  const handleReset = () => dispatch({ type: 'setSearchTerm', payload: '' })
+  const handleReset = () => setSearchTerm('')
 
   console.log('rendering SearchInput')
   return (

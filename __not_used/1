@@ -29,3 +29,33 @@
 }
 
       // setSources((data) => [...data, ...(newData as any).results])
+
+// const runOnce = (fn: (...a: any) => any) => {
+//   let counter = 0
+//   return () => {
+//     counter += 1
+//     if (counter === 1) {
+//       fn()
+//     }
+//   }
+// }
+// const reducer = (state: any, action: any) => {
+//   return {
+//     setSearchTerm: { ...state, searchTerm: action.payload },
+//   }[action.type]
+// }
+
+// function createReducer(initialState, handlers) {
+//   return function reducer(state = initialState, action) {
+//     if (handlers.hasOwnProperty(action.type)) {
+//       return handlers[action.type](state, action)
+//     } else {
+//       return state
+//     }
+//   }
+// }
+// const todosReducer = createReducer([], {
+//   set: addTodo,
+//   TOGGLE_TODO: toggleTodo,
+//   EDIT_TODO: editTodo,
+// })

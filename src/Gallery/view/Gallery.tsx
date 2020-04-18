@@ -2,11 +2,11 @@ import React, { FC } from 'react'
 import { Grid, Box, Heading } from '@chakra-ui/core'
 
 import { SearchInput } from './SearchInput/SearchInput'
-import { List } from './List'
+import { List } from './List/List'
 import { Progress } from './Progress'
 import { Title } from './Title'
 
-import { Provider } from '../_gallery'
+import { Provider } from '../logic'
 import { Config } from '../types'
 
 export const Gallery: FC<Config> = (props) => (

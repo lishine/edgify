@@ -6,7 +6,7 @@ import { ReactQueryConfigProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { StateInspector } from 'reinspect'
 
-import { Gallery } from './Gallery/$gallery/Gallery'
+import { Gallery } from './Gallery/view/Gallery'
 
 export default () => {
   return (

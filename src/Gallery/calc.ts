@@ -4,7 +4,7 @@ import { Source, TRow, Tcol, Config } from './types'
 export const calcScaledHeight = (height: number, width: number, imageWidth: number) => (height * imageWidth) / width
 
 // purpose - to arrange items in columns and translate them up or down according to the previous items
-export const calcRows = (sources: Source[], _rows: TRow[], config: Config) => {
+export const calcRows = (sources: Source[], _rows: TRow[] = [], config: Config) => {
   const { nCols, imageWidth } = config
   let elements: Source[] = []
   const rows = [..._rows]

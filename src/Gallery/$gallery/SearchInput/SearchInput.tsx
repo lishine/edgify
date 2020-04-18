@@ -5,7 +5,7 @@ import { useGalleryContext } from '../../_gallery'
 import { Icon, IconButton } from './Icon'
 
 export const SearchInput = (props: InputProps) => {
-  const dispatch = useGalleryContext(([_, dispatch]) => dispatch)
+  const dispatch = useGalleryContext(([, dispatch]) => dispatch)
   const searchTerm = useGalleryContext(([state]) => state.searchTerm)
   const [innerValue, setInnerValue] = useState('')
 
@@ -15,9 +15,11 @@ export const SearchInput = (props: InputProps) => {
 
   useDebounce(
     () => {
-      dispatch({ type: 'setSearchTerm', payload: innerValue })
+      if (searchTerm !== innerValue) {
+        dispatch({ type: 'setSearchTerm', payload: innerValue })
+      }
     },
-    700,
+    500,
     [innerValue]
   )
 

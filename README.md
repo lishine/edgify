@@ -22,3 +22,6 @@
 - images preload
 - urls lazy load
 - images lazy load
+
+- react-query dev-toold
+- reducer dev-tools

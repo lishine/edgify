@@ -11,7 +11,7 @@ import { Config } from '../types'
 
 export const Gallery: FC<Config> = (props) => (
   <Provider init={props}>
-    <Grid {...{ mx: 'auto', mt: 10, w: 1550 }} style={{ placeItems: 'center' }}>
+    <Grid {...{ mx: 'auto', mt: 10 }} style={{ placeItems: 'center' }}>
       <Heading size='lg' {...{ mb: 6 }}>
         Search Unsplash
       </Heading>

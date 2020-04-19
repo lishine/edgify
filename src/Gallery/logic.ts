@@ -1,14 +1,14 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useCallback } from 'react'
 import wretch from 'wretch'
 import { useQuery } from 'react-query'
 // import useSWR from 'swr'
 import { createContext } from '../lib/contextStore'
 import { useState } from 'reinspect'
-import { useFirstMountState } from 'react-use'
+import { useFirstMountState, useTimeoutFn } from 'react-use'
 import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect'
 
 import { Config } from './types'
-import { useReducer } from '../utils'
+import useDebounceWhen, { useReducer } from '../utils'
 import { useTransformList } from './view/List/List'
 
 // images data comes with full height and width
@@ -38,8 +38,11 @@ const useInfiniteQuery = (query: any, variables: any, fetch?: any) => {
     (state, payload, initialState) => ({
       reset: () => initialState,
       fetchMore: () => ({ ...state, fetchingMore: true }),
+      // setLoading: () => ({ ...state, isLoading: payload }),
+      // setData: () => ({ ...state, data: payload }),
       fetchMoreSuccess: () => ({ ...state, page: state.page + 1, fetchingMore: false }),
     }),
+    // { page: 1, fetchingMore: false, data: undefined, isLoading: false },
     { page: 1, fetchingMore: false },
     'useInfiniteQuery'
   )
@@ -47,7 +50,6 @@ const useInfiniteQuery = (query: any, variables: any, fetch?: any) => {
   const isFirstMount = useFirstMountState()
   useDeepCompareEffectNoCheck(() => {
     if (isFirstMount) {
-      console.log('*** setPage 1 query', query)
       dispatch({ type: 'reset' })
     }
   }, [query, isFirstMount])
@@ -61,6 +63,7 @@ const useInfiniteQuery = (query: any, variables: any, fetch?: any) => {
       staleTime: Infinity,
       cacheTime: 0,
       onSuccess() {
+        // dispatch({ type: 'setData', payload: data })
         if (state.fetchingMore) {
           dispatch({ type: 'fetchMoreSuccess' })
         }
@@ -68,43 +71,78 @@ const useInfiniteQuery = (query: any, variables: any, fetch?: any) => {
     }
   )
 
-  return useMemo(() => ({ status, data, fetchMore: () => dispatch({ type: 'fetchMore' }) }), [status, data])
+  // useEffect(() => {
+  // dispatch({ type: 'setLoading', payload: status === 'loading' })
+  // }, [status])
+  const fetchMore = useCallback(() => dispatch({ type: 'fetchMore' }), [])
+
+  return useMemo(() => ({ status, data, fetchMore }), [status, data, fetchMore])
+  // return useMemo(
+  //   () => ({ isLoading: state.isLoading, data: state.data, fetchMore: () => dispatch({ type: 'fetchMore' }) }),
+  //   [state.data, state.isLoading]
+  // )
 }
 
-const useGalleryState = (config: Config) => {
-  const [isLoading, setIsLoading] = useState(false, 'setIsLoading')
-  const [searchTerm, setSearchTerm] = useState('b', 'setSearchTerm')
+// const useHoldValueLonger = (value: any, holdValueLonger: any) => {
+//   useEffect(() => {
+//     if (value === 'loading') {
+//       setLoading(true)
+//     } else {
+//       setIsLoading(true)
+//       const tm = setTimeout(() => {
+//         setIsLoading(false)
+//       }, 500)
+//       return () => clearTimeout(tm)
+//     }
+//     return
+//   }, [value])
+// }
 
-  const { status, data, fetchMore } = useInfiniteQuery(searchTerm && ['gallery', searchTerm, config], fetchGallery)
+const useGalleryState = (config: Config) => {
+  const [state, dispatch] = useReducer(
+    (state, payload) => ({
+      setLoading: () => ({ ...state, isLoading: payload }),
+      setSearchTerm: () => ({ ...state, searchTerm: payload }),
+    }),
+    { isLoading: false, searchTerm: 'b' },
+    'gallery'
+  )
+  // const [isLoading, setIsLoading] = useState(false, 'setIsLoading')
+  // const [searchTerm, setSearchTerm] = useState('b', 'setSearchTerm')
+
+  const { status, data, fetchMore } = useInfiniteQuery(
+    state.searchTerm && ['gallery', state.searchTerm, config],
+    fetchGallery
+  )
   const { rows, reset } = useTransformList(config, data)
 
   useEffect(() => {
     reset()
-  }, [reset, searchTerm])
+  }, [state.searchTerm, reset])
+  console.log('status === loading', status === 'loading')
+  useDebounceWhen(
+    () => {
+      console.log('TTTT', status)
+      dispatch({ type: 'setLoading', payload: status === 'loading' })
+    },
+    ([status]: [string]) => {
+      console.log('HHHHHH', status)
+      return status === 'loading'
+    },
+    1000,
+    [status]
+  )
 
-  useEffect(() => {
-    if (status === 'loading') {
-      setIsLoading(true)
-    } else {
-      setIsLoading(true)
-      const tm = setTimeout(() => {
-        setIsLoading(false)
-      }, 500)
-      return () => clearTimeout(tm)
-    }
-    return
-  }, [status])
-
-  console.log('isLoading', isLoading)
-  console.log('*****searchTerm', searchTerm)
+  console.log('isLoading', state.isLoading)
+  console.log('*****searchTerm', state.searchTerm)
   console.log('status', status)
   return {
-    isLoading,
+    isLoading: state.isLoading,
     rows,
-    searchTerm,
+    searchTerm: state.searchTerm,
     config,
     fetchMore,
-    setSearchTerm,
+    setSearchTerm: useCallback((searchTerm) => dispatch({ type: 'setSearchTerm', payload: searchTerm }), []),
   }
 }
 

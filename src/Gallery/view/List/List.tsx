@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useMemo, useCallback } from 'react'
 import { Flex, Image } from '@chakra-ui/core'
 import { VariableSizeList } from 'react-window'
-import { useThrottle } from 'react-use'
+import { useTimeoutFn } from 'react-use'
 import { useState } from 'reinspect'
 
 import { useGalleryContext } from '../../logic'

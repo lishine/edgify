@@ -8,8 +8,8 @@ import { theme } from './theme'
 const rootElement = document.getElementById('root')
 
 render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>,
-  rootElement
+    <ThemeProvider theme={theme}>
+        <App />
+    </ThemeProvider>,
+    rootElement
 )

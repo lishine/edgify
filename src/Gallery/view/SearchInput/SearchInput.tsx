@@ -5,48 +5,55 @@ import { useGalleryContext } from '../../logic'
 import { Icon, IconButton } from './Icon'
 
 export const SearchInput = (props: InputProps) => {
-  const setSearchTerm = useGalleryContext((state) => state.setSearchTerm)
-  const searchTerm = useGalleryContext((state) => state.searchTerm)
-  const [innerValue, setInnerValue] = useState('')
+    const setSearchTerm = useGalleryContext((state) => state.setSearchTerm)
+    const searchTerm = useGalleryContext((state) => state.searchTerm)
+    const [innerValue, setInnerValue] = useState('')
 
-  useEffect(() => {
-    setInnerValue(searchTerm)
-  }, [searchTerm])
+    useEffect(() => {
+        setInnerValue(searchTerm)
+    }, [searchTerm])
 
-  useDebounce(
-    () => {
-      if (searchTerm !== innerValue) {
-        setSearchTerm(innerValue)
-      }
-    },
-    500,
-    [innerValue]
-  )
+    useDebounce(
+        () => {
+            if (searchTerm !== innerValue) {
+                setSearchTerm(innerValue)
+            }
+        },
+        500,
+        [innerValue]
+    )
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value
-    setInnerValue(newValue)
-  }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value
+        setInnerValue(newValue)
+    }
 
-  const handleReset = () => setSearchTerm('')
+    const handleReset = () => setSearchTerm('')
 
-  console.log('rendering SearchInput')
-  return (
-    <InputGroup>
-      <InputLeftElement children={<Icon name='search' size='15px' />} />
-      <Input
-        variant='filled'
-        value={innerValue}
-        autoComplete='text'
-        placeholder='image search'
-        onChange={handleChange}
-        type='search'
-        {...{ rounded: 'xxl', bg: '#EEEEEE', _hover: { borderColor: '#AAAAAA' }, _focus: { borderColor: '#AAAAAA' } }}
-        {...props}
-      />
-      <InputRightElement
-        children={<IconButton size='xs' variant='ghost' aria-label='reset' icon='close' onClick={handleReset} />}
-      />
-    </InputGroup>
-  )
+    console.log('rendering SearchInput')
+    return (
+        <InputGroup>
+            <InputLeftElement children={<Icon name='search' size='15px' />} />
+            <Input
+                variant='filled'
+                value={innerValue}
+                autoComplete='text'
+                placeholder='image search'
+                onChange={handleChange}
+                type='search'
+                {...{
+                    rounded: 'xxl',
+                    bg: '#EEEEEE',
+                    _hover: { borderColor: '#AAAAAA' },
+                    _focus: { borderColor: '#AAAAAA' },
+                }}
+                {...props}
+            />
+            <InputRightElement
+                children={
+                    <IconButton size='xs' variant='ghost' aria-label='reset' icon='close' onClick={handleReset} />
+                }
+            />
+        </InputGroup>
+    )
 }

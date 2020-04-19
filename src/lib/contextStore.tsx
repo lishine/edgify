@@ -1,8 +1,6 @@
 import React, { FC } from 'react'
 import { useContextSelector, createContext as UCScreateContext } from 'use-context-selector'
 
-type State = {}
-
 const useStateFactory = <T extends unknown>(Context: React.Context<T>) => <N extends unknown>(fn: (t: T) => N) =>
   useContextSelector<T, N>(Context, fn) // eslint-disable-line
 

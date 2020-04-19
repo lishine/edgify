@@ -1,13 +1,14 @@
-import { useCallback, useEffect, Dispatch, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import wretch from 'wretch'
 import { useQuery } from 'react-query'
 // import useSWR from 'swr'
 import { createContext } from '../lib/contextStore'
-import { useState, useReducer } from 'reinspect'
+import { useState } from 'reinspect'
 import { useFirstMountState } from 'react-use'
 import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect'
 
 import { Config } from './types'
+import { useReducer } from '../utils'
 import { useTransformList } from './view/List/List'
 
 // images data comes with full height and width
@@ -31,20 +32,17 @@ const fetchGallery = (key: any, searchTerm: string, config: Config, page: number
     .then((data) => prepareResults(data, config.imageWidth))
 }
 
-const initialState = { page: 1, fetchingMore: false }
-
-const actions = (state: typeof initialState, payload?: any) => ({
-  reset: () => initialState,
-  fetchMore: () => ({ ...state, fetchingMore: true }),
-  fetchMoreSuccess: () => ({ ...state, page: state.page + 1, fetchingMore: false }),
-})
-
-const createReducer = <S extends Record<string, any>, T extends string>(
-  actions: (state: S, payload?: any) => Record<T, () => S>
-) => (state: S, action: { type: T; payload?: any }) => actions(state, action.payload)[action.type]?.() ?? state
-
-const useInfiniteQuery = (query: any, variables: any, fetch: any) => {
-  const [state, dispatch] = useReducer(createReducer(actions), initialState, (state) => state, 'useInfiniteQuery')
+const useInfiniteQuery = (query: any, variables: any, fetch?: any) => {
+  fetch = fetch ? fetch : variables
+  const [state, dispatch] = useReducer(
+    (state, payload, initialState) => ({
+      reset: () => initialState,
+      fetchMore: () => ({ ...state, fetchingMore: true }),
+      fetchMoreSuccess: () => ({ ...state, page: state.page + 1, fetchingMore: false }),
+    }),
+    { page: 1, fetchingMore: false },
+    'useInfiniteQuery'
+  )
 
   const isFirstMount = useFirstMountState()
   useDeepCompareEffectNoCheck(() => {
@@ -77,11 +75,7 @@ const useGalleryState = (config: Config) => {
   const [isLoading, setIsLoading] = useState(false, 'setIsLoading')
   const [searchTerm, setSearchTerm] = useState('b', 'setSearchTerm')
 
-  const { status, data, fetchMore } = useInfiniteQuery(
-    searchTerm && ['gallery', searchTerm, config],
-    [config],
-    fetchGallery
-  )
+  const { status, data, fetchMore } = useInfiniteQuery(searchTerm && ['gallery', searchTerm, config], fetchGallery)
   const { rows, reset } = useTransformList(config, data)
 
   useEffect(() => {

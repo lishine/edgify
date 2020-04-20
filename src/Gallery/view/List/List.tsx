@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useMemo, useCallback } from 'react'
 import { Flex, Image } from '@chakra-ui/core'
 import { VariableSizeList } from 'react-window'
-import { useTimeoutFn } from 'react-use'
 import { useState } from 'reinspect'
+import { useUpdateEffect } from 'react-use'
 
 import { useGalleryContext } from '../../logic'
 import { TRow, Config, Source } from '../../types'
-import { createRowsMasonry } from './calc'
+import { appendRowsMasonry } from './calc'
 
 interface ItemData {
     rows: TRow[]
@@ -34,10 +34,10 @@ const Row: FC<{ index: number; style: any; data: ItemData }> = React.memo(({ ind
 })
 
 export const useTransformList = (config: Config, results: Source[]) => {
-    const [rows, setRows] = useState([] as TRow[], 'setRows')
+    const [rows, setRows] = useState([] as TRow[], 'useTransformList:setRows')
 
-    useEffect(() => {
-        setRows((rows) => createRowsMasonry(results, rows, config.nCols))
+    useUpdateEffect(() => {
+        setRows((rows) => appendRowsMasonry(results, rows, config.nCols))
     }, [results, setRows, config])
 
     return {
@@ -54,42 +54,17 @@ export const List = () => {
     const fetchMore = useGalleryContext((state) => state.fetchMore)
     console.log('rows', rows)
 
-    // const [visibleStopIndex, setVisibleStopIndex] = useState(0, 'setVisibleStopIndex')
-    // useEffect(() => {
-    //   if (rows.length === 0) {
-    //     setVisibleStopIndex(0)
-    //   }
-    // }, [rows.length])
-    // const throtledVisibleStopIndex = useThrottle(visibleStopIndex, 300)
-    // console.log('throtledVisibleStopIndex', throtledVisibleStopIndex)
-    // useEffect(() => {
-    //   if (rows.length && rows.length - throtledVisibleStopIndex < config.threshold) {
-    //     fetchMore()
-    //   }
-    // }, [fetchMore, rows.length, throtledVisibleStopIndex, config.threshold])
+    const { imageWidth, gapY, height, overscanCount } = config
+    const itemData = useMemo(() => ({ rows, config }), [rows, config])
+    if (rows.length === 0) {
+        return null
+    }
 
-    // const handleScroll = useCallback(
-    // ({ visibleStopIndex }) => {
-    // if (rows.length && rows.length - visibleStopIndex < config.threshold) {
-    // console.log('------------')
-    // fetchMore()
-    // }
-    // },
-    // [rows.length, config.threshold, fetchMore]
-    // )
-    //
-
-    const { imageWidth, gapX, gapY, height, nCols, overscanCount } = config
     // const width = (imageWidth + gapX) * nCols + 20
     const width = window.innerWidth
     const itemSize = (i: number) => rows[i].height + gapY
     const itemCount = rows.length
     const estimatedItemSize = Math.round(imageWidth * 1.5)
-    const itemData = useMemo(() => ({ rows, config }), [rows, config])
-
-    if (rows.length === 0) {
-        return null
-    }
 
     return (
         <VariableSizeList
@@ -113,3 +88,28 @@ export const List = () => {
         </VariableSizeList>
     )
 }
+
+// const [visibleStopIndex, setVisibleStopIndex] = useState(0, 'setVisibleStopIndex')
+// useEffect(() => {
+//   if (rows.length === 0) {
+//     setVisibleStopIndex(0)
+//   }
+// }, [rows.length])
+// const throtledVisibleStopIndex = useThrottle(visibleStopIndex, 300)
+// console.log('throtledVisibleStopIndex', throtledVisibleStopIndex)
+// useEffect(() => {
+//   if (rows.length && rows.length - throtledVisibleStopIndex < config.threshold) {
+//     fetchMore()
+//   }
+// }, [fetchMore, rows.length, throtledVisibleStopIndex, config.threshold])
+
+// const handleScroll = useCallback(
+// ({ visibleStopIndex }) => {
+// if (rows.length && rows.length - visibleStopIndex < config.threshold) {
+// console.log('------------')
+// fetchMore()
+// }
+// },
+// [rows.length, config.threshold, fetchMore]
+// )
+//

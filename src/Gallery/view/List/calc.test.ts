@@ -1,4 +1,4 @@
-import { createRowsMasonry, Source, TRow } from './calc'
+import { appendRowsMasonry, Source, TRow } from './calc'
 
 test('test calcRows', async () => {
     let rows: TRow[] = []
@@ -12,7 +12,7 @@ test('test calcRows', async () => {
         { height: 30, id: '', width: 150, urls: { raw: '' } },
         { height: 20, id: '', width: 150, urls: { raw: '' } },
     ]
-    rows = createRowsMasonry(sources, rows, N_COLS, imageWidth)
+    rows = appendRowsMasonry(sources, rows, N_COLS, imageWidth)
     expect(rows).toHaveLength(sources.length / N_COLS)
     expect(rows[0].cols).toHaveLength(N_COLS)
     console.log('calcRows(sources)', JSON.stringify(rows, null, 2))

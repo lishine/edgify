@@ -1,7 +1,7 @@
 import { Source, TRow, Tcol } from '../../types'
 
 // purpose - to arrange items in columns and translate them up or down according to the previous items
-export const createRowsMasonry = (sources: Source[], existingRows: TRow[] = [], nCols: number) => {
+export const appendRowsMasonry = (sources: Source[], existingRows: TRow[] = [], nCols: number) => {
     let elements: Source[] = []
     const rows = [...existingRows]
     const startRowLength = rows.length
@@ -45,5 +45,6 @@ export const createRowsMasonry = (sources: Source[], existingRows: TRow[] = [], 
             elements = []
         }
     })
+    console.log('000rows', rows)
     return rows
 }

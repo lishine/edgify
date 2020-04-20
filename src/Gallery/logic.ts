@@ -22,7 +22,7 @@ export const prepareResults = (data: any, imageWidth: number) =>
     })) ?? []
 
 const fetchGallery = (key: any, searchTerm: string, config: Config, page: number) => {
-    console.log('fetching', key, searchTerm, page)
+    // console.log('fetching', key, searchTerm, page)
     return wretch(`${config.url}&per_page=${config.perPage}&page=${page + 1}&query=${searchTerm}`)
         .get()
         .setTimeout(1000)
@@ -52,14 +52,15 @@ const useGalleryState = (config: Config) => {
 
     useDebounceWhen(
         () => dispatch({ type: 'setLoading', payload: status === 'loading' }),
-        ([status]: [string]) => status === 'loading',
+        (status: string) => status === 'loading',
         1000,
         [status]
     )
 
-    console.log('isLoading', state.isLoading)
-    console.log('*****searchTerm', state.searchTerm)
+    // console.log('isLoading', state.isLoading)
+    // console.log('*****searchTerm', state.searchTerm)
     console.log('status', status)
+    console.log('rendering state')
     return {
         isLoading: state.isLoading,
         rows,

@@ -6,7 +6,7 @@ export function useDebounceWhen(fn: Function, when: Function, ms = 0, deps: Depe
     const [isReady, cancel, reset] = useTimeoutFn(fn, ms)
 
     useEffect(() => {
-        if (when(deps)) {
+        if (when(...deps)) {
             cancel()
             fn()
         } else {

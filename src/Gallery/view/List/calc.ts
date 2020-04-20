@@ -45,6 +45,5 @@ export const appendRowsMasonry = (sources: Source[], existingRows: TRow[] = [], 
             elements = []
         }
     })
-    console.log('000rows', rows)
     return rows
 }

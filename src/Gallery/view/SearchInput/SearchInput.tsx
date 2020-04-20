@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Input, InputProps, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/core'
-import { useDebounce } from 'react-use'
+import { useDebounce, useUpdateEffect } from 'react-use'
 import { useGalleryContext } from '../../logic'
 import { Icon, IconButton } from './Icon'
 
 export const SearchInput = (props: InputProps) => {
     const setSearchTerm = useGalleryContext((state) => state.setSearchTerm)
     const searchTerm = useGalleryContext((state) => state.searchTerm)
-    const [innerValue, setInnerValue] = useState('')
+    const [innerValue, setInnerValue] = useState(searchTerm || '')
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         setInnerValue(searchTerm)
     }, [searchTerm])
 

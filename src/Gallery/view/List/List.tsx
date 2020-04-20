@@ -1,8 +1,9 @@
-import React, { FC, useEffect, useMemo, useCallback } from 'react'
+import React, { FC, useEffect, useMemo, useCallback, useRef } from 'react'
 import { Flex, Image } from '@chakra-ui/core'
 import { VariableSizeList } from 'react-window'
 import { useState } from 'reinspect'
-import { useUpdateEffect } from 'react-use'
+import { useUpdateEffect, useThrottleFn } from 'react-use'
+import _throttle from 'lodash/throttle'
 
 import { useGalleryContext } from '../../logic'
 import { TRow, Config, Source } from '../../types'
@@ -48,24 +49,40 @@ export const useTransformList = (config: Config, results: Source[]) => {
     }
 }
 
+type t = typeof useState
+
+// export const useThrottle = (fn: (...args: number[]) => unknown, tm: number): t => {
+//     const [s, setS] = useState(0, 'setVisibleStopIndex')
+//     useThrottleFn(fn, tm, [s])
+//     return [s, setS]
+// }
+
+// export const useThrottle = (fn: any, tm: any): any => {
+// const [s, setS] = useState(0, 'setVisibleStopIndex')
+// useThrottleFn(fn, tm, [s])
+// return useMemo(() => [s, setS], [s])
+// }
+
 export const List = () => {
     const config = useGalleryContext((state) => state.config)
     const rows = useGalleryContext((state) => state.rows)
-    const fetchMore = useGalleryContext((state) => state.fetchMore)
-    console.log('rows', rows)
+    const throttledFetchMore = useGalleryContext((state) => state.fetchMore)
+    // console.log('rows', rows)
 
-    const { imageWidth, gapY, height, overscanCount } = config
+    const refState = useRef({ fetchMore: _throttle(() => throttledFetchMore(), 200) })
     const itemData = useMemo(() => ({ rows, config }), [rows, config])
+
     if (rows.length === 0) {
         return null
     }
 
-    // const width = (imageWidth + gapX) * nCols + 20
+    const { imageWidth, gapY, height, overscanCount } = config
     const width = window.innerWidth
     const itemSize = (i: number) => rows[i].height + gapY
     const itemCount = rows.length
     const estimatedItemSize = Math.round(imageWidth * 1.5)
 
+    console.log('rendering List')
     return (
         <VariableSizeList
             itemData={itemData}
@@ -77,10 +94,10 @@ export const List = () => {
             width={width}
             onItemsRendered={({ visibleStopIndex }) => {
                 if (rows.length && rows.length - visibleStopIndex < config.threshold) {
-                    console.log('rows.length', rows.length)
-                    console.log('visibleStopIndex', visibleStopIndex)
-                    console.log('------------')
-                    fetchMore()
+                    // console.log('rows.length', rows.length)
+                    // console.log('visibleStopIndex', visibleStopIndex)
+                    // console.log('------------')
+                    refState.current.fetchMore()
                 }
             }}
         >
@@ -113,3 +130,5 @@ export const List = () => {
 // [rows.length, config.threshold, fetchMore]
 // )
 //
+// const width = (imageWidth + gapX) * nCols + 20
+// const [, setVisibleStopIndex] = useThrottle(() => fetchMore(), 2000)

@@ -5,9 +5,8 @@ import { createContext } from '../lib/contextStore'
 
 import { Config } from './types'
 import { useReducer } from '../utils/useReducer'
-import { useDebounceWhen } from '../utils/useDebounceWhen'
 import { useInfiniteQuery } from '../utils/useInfiniteQuery'
-import { useTransformList } from './view/List/List'
+import { useAppendInfiniteList } from './view/List/InfiniteList'
 
 // images data comes with full height and width
 export const calcImageScaledHeight = (height: number, width: number, imageWidth: number) =>
@@ -22,7 +21,7 @@ export const prepareResults = (data: any, imageWidth: number) =>
     })) ?? []
 
 const fetchGallery = (key: any, searchTerm: string, config: Config, page: number) => {
-    // console.log('fetching', key, searchTerm, page)
+    console.log('fetching', key, searchTerm, page)
     return wretch(`${config.url}&per_page=${config.perPage}&page=${page + 1}&query=${searchTerm}`)
         .get()
         .setTimeout(1000)
@@ -40,29 +39,23 @@ const useGalleryState = (config: Config) => {
         'gallery'
     )
 
-    const { status, data, fetchMore } = useInfiniteQuery(
+    const { isLoading, data, fetchMore } = useInfiniteQuery(
         state.searchTerm && ['gallery', state.searchTerm, config],
-        fetchGallery
+        fetchGallery,
+        {
+            staleTime: Infinity,
+            cacheTime: 0,
+        }
     )
-    const { rows, reset } = useTransformList(config, data)
+    const { rows, reset } = useAppendInfiniteList(config, data)
 
     useUpdateEffect(() => {
         reset()
     }, [state.searchTerm])
 
-    useDebounceWhen(
-        () => dispatch({ type: 'setLoading', payload: status === 'loading' }),
-        (status: string) => status === 'loading',
-        1000,
-        [status]
-    )
-
-    // console.log('isLoading', state.isLoading)
-    // console.log('*****searchTerm', state.searchTerm)
-    console.log('status', status)
     console.log('rendering state')
     return {
-        isLoading: state.isLoading,
+        isLoading,
         rows,
         searchTerm: state.searchTerm,
         config,

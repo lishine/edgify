@@ -1,0 +1,48 @@
+// const [visibleStopIndex, setVisibleStopIndex] = useState(0, 'setVisibleStopIndex')
+// useEffect(() => {
+//   if (rows.length === 0) {
+//     setVisibleStopIndex(0)
+//   }
+// }, [rows.length])
+// const throtledVisibleStopIndex = useThrottle(visibleStopIndex, 300)
+// console.log('throtledVisibleStopIndex', throtledVisibleStopIndex)
+// useEffect(() => {
+//   if (rows.length && rows.length - throtledVisibleStopIndex < config.threshold) {
+//     fetchMore()
+//   }
+// }, [fetchMore, rows.length, throtledVisibleStopIndex, config.threshold])
+
+// const handleScroll = useCallback(
+// ({ visibleStopIndex }) => {
+// if (rows.length && rows.length - visibleStopIndex < config.threshold) {
+// console.log('------------')
+// fetchMore()
+// }
+// },
+// [rows.length, config.threshold, fetchMore]
+// )
+//
+// const width = (imageWidth + gapX) * nCols + 20
+// const [, setVisibleStopIndex] = useThrottle(() => fetchMore(), 2000)
+
+// export const useThrottle = (fn: (...args: number[]) => unknown, tm: number): t => {
+//     const [s, setS] = useState(0, 'setVisibleStopIndex')
+//     useThrottleFn(fn, tm, [s])
+//     return [s, setS]
+// }
+
+// export const useThrottle = (fn: any, tm: any): any => {
+// const [s, setS] = useState(0, 'setVisibleStopIndex')
+// useThrottleFn(fn, tm, [s])
+// return useMemo(() => [s, setS], [s])
+// }
+
+// const runOnce = (fn: (...a: any) => any) => {
+//   let counter = 0
+//   return () => {
+//     counter += 1
+//     if (counter === 1) {
+//       fn()
+//     }
+//   }
+// }

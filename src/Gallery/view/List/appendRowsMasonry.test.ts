@@ -1,4 +1,4 @@
-import { appendRowsMasonry, Source, TRow } from './calc'
+import { appendRowsMasonry, Source, TRow } from './appendRowsMasonry'
 
 test('test calcRows', async () => {
     let rows: TRow[] = []

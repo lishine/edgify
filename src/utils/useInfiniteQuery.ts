@@ -1,98 +1,65 @@
-import { useState } from 'react'
-
-import { useRef } from 'react'
-import { useDeepCompareUpdateEffectNoCheck } from './useDeepCompareUpdateEffectNoCheck'
+import { useState, useCallback } from 'react'
+import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect'
+import { useDebounce } from 'use-debounce'
+import { useUpdateEffect } from 'react-use'
 import { useQuery } from 'react-query'
 
-const initial = { page: 1 }
+import { useReducer } from './useReducer'
 
-export const useInfiniteQuery = (query: any, variables: any, fetch?: any) => {
-    if (fetch === undefined) {
+export const useInfiniteQuery = (query: any, variables: any, fetch?: any, options?: Record<string, any>) => {
+    if (typeof variables !== 'function') {
+        options = options || {}
+        variables = Array.isArray(variables) ? variables : [variables]
+    } else {
+        options = fetch || {}
         fetch = variables
         variables = []
-    } else {
-        variables = Array.isArray(variables) ? variables : [variables]
     }
 
-    const [fetchingMore, setFetchingMore] = useState(false)
-    const state = useRef(initial)
-    useDeepCompareUpdateEffectNoCheck(() => {
-        state.current = initial
-        setFetchingMore(false)
+    const [state, dispatch] = useReducer(
+        (state, payload, initialState) => ({
+            startFetchingMore: () => ({ ...state, fetchingMore: true }),
+            startFetching: () => ({ ...initialState, fetching: true }),
+            fetchingSuccess: () => ({
+                ...state,
+                page: state.fetchingMore ? state.page + 1 : state.page,
+                fetchingMore: false,
+                fetching: false,
+                data: payload,
+            }),
+        }),
+        { page: 1, fetching: false, fetchingMore: false, data: [] },
+        'useInfiniteQuery'
+    )
+
+    const { data, refetch } = useQuery(
+        query && [...query],
+        [...variables, state.fetchingMore ? state.page + 1 : state.page],
+        fetch,
+        Object.assign(options, { manual: true })
+    )
+    useUpdateEffect(() => {
+        dispatch({ type: 'fetchingSuccess', payload: data })
+    }, [data])
+
+    useDeepCompareEffectNoCheck(() => {
+        dispatch({ type: 'startFetching' })
     }, [query])
 
-    // console.log('useInfiniteQuery state', state)
-    const { status, data, refetch } = useQuery(
-        query && [...query],
-        [...variables, fetchingMore ? state.current.page + 1 : state.current.page],
-        fetch,
-        {
-            staleTime: Infinity,
-            cacheTime: 0,
-            onSuccess() {
-                if (fetchingMore) {
-                    state.current.page += 1
-                    setFetchingMore(false)
-                }
-            },
+    useUpdateEffect(() => {
+        if (state.fetchingMore || state.fetching) {
+            refetch({ force: true })
         }
-    )
-    console.log('page', state.current.page)
+    }, [state.fetching, state.fetchingMore])
 
-    const fetchMore = () => {
-        setFetchingMore(true)
-        refetch({ force: true })
+    // Delay transition to isLoading = false
+    const [isLoading] = useDebounce(state.fetching || state.fetchingMore, 1000, {
+        leading: state.fetching || state.fetchingMore === true,
+    })
+
+    return {
+        isLoading,
+        data: state.data,
+        fetchMore: useCallback(() => dispatch({ type: 'startFetchingMore' }), []),
     }
-
-    return { status: fetchingMore ? 'loading' : status, data, fetchMore }
 }
-// export const useInfiniteQuery = (query: any, variables: any, fetch?: any) => {
-//     fetch = fetch ? fetch : variables
-//     const [state, dispatch] = useReducer(
-//         (state, ___, initialState) => ({
-//             reset: () => initialState,
-//             fetchMore: () => ({ ...state, fetchingMore: true }),
-//             fetchMoreSuccess: () => ({ ...state, page: state.page + 1, fetchingMore: false }),
-//         }),
-//         { page: 1, fetchingMore: false },
-//         'useInfiniteQuery'
-//     )
-
-//     const isFirstMount = useFirstMountState()
-//     useDeepCompareEffectNoCheck(() => {
-//         if (isFirstMount) {
-//             dispatch({ type: 'reset' })
-//         }
-//     }, [query, isFirstMount])
-
-//     console.log('page fetchingMore', state.page, state.fetchingMore)
-//     const { status, data } = useQuery(
-//         query && [...query, state.fetchingMore ? state.page + 1 : state.page],
-//         variables,
-//         fetch,
-//         {
-//             staleTime: Infinity,
-//             cacheTime: 0,
-//             onSuccess() {
-//                 // dispatch({ type: 'setData', payload: data })
-//                 if (state.fetchingMore) {
-//                     dispatch({ type: 'fetchMoreSuccess' })
-//                 }
-//             },
-//         }
-//     )
-
-//     const fetchMore = useCallback(() => dispatch({ type: 'fetchMore' }), [])
-
-//     return useMemo(() => ({ status, data, fetchMore }), [status, data, fetchMore])
-// }
-
-// const [state, dispatch] = useReducer(
-// (state, ___, initialState) => ({
-// reset: () => initialState,
-// fetchMore: () => ({ ...state, fetchingMore: true }),
-// fetchMoreSuccess: () => ({ ...state, page: state.page + 1, fetchingMore: false }),
-// }),
-// { page: 1, fetchingMore: false },
-// 'useInfiniteQuery'
-// )

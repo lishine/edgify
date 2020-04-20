@@ -2,7 +2,7 @@ import { useEffect, DependencyList } from 'react'
 import { useTimeoutFn } from 'react-use'
 
 type UseDebounceReturn = [() => boolean | null, () => void]
-export function useDebounceWhen(fn: Function, when: Function, ms = 0, deps: DependencyList = []): UseDebounceReturn {
+export function useDebounceFnWhen(fn: Function, when: Function, ms = 0, deps: DependencyList = []): UseDebounceReturn {
     const [isReady, cancel, reset] = useTimeoutFn(fn, ms)
 
     useEffect(() => {

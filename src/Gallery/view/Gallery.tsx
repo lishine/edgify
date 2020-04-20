@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { Grid, Box, Heading } from '@chakra-ui/core'
 
 import { SearchInput } from './SearchInput/SearchInput'
-import { List } from './List/List'
+import { InfiniteList } from './List/InfiniteList'
 import { Progress } from './Progress'
 import { Title } from './Title'
 
@@ -21,7 +21,7 @@ export const Gallery: FC<Config> = (props) => (
             </Box>
             <Box>
                 <Title />
-                <List />
+                <InfiniteList />
             </Box>
         </Grid>
     </Provider>

@@ -6,15 +6,14 @@ import { useQuery } from 'react-query'
 
 import { useReducer } from './useReducer'
 
-export const useInfiniteQuery = (query: any, variables: any, fetch?: any, options?: Record<string, any>) => {
+export const useInfiniteQuery = (query: any, variables: any, fetch?: any, _options: Record<string, any> = {}) => {
     if (typeof variables !== 'function') {
-        options = options || {}
         variables = Array.isArray(variables) ? variables : [variables]
     } else {
-        options = fetch || {}
         fetch = variables
         variables = []
     }
+    const { isLoadingDelayTransitionToLow = 50, ...options } = _options
 
     const [state, dispatch] = useReducer(
         (state, payload, initialState) => ({
@@ -52,8 +51,8 @@ export const useInfiniteQuery = (query: any, variables: any, fetch?: any, option
         }
     }, [state.fetching, state.fetchingMore])
 
-    // Delay transition to isLoading = false
-    const [isLoading] = useDebounce(state.fetching || state.fetchingMore, 1000, {
+    // isLoading Delay transition to false
+    const [isLoading] = useDebounce(state.fetching || state.fetchingMore, isLoadingDelayTransitionToLow, {
         leading: state.fetching || state.fetchingMore === true,
     })
 

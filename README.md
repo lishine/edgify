@@ -28,6 +28,7 @@
 -   print action to redux-devtools
 -   typescript: reducer payload types and not allow other init state fields
 -   CRA - override eslint settings
+-   typescript: react-query
 
 ### Hooks variants
 

@@ -45,7 +45,7 @@ const useGalleryState = (config: Config) => {
         {
             staleTime: Infinity,
             cacheTime: 0,
-            isLoadingDelayTransitionToLow: 700,
+            isLoadingDelayTransitionToLow: 1000,
         }
     )
     const { rows, reset } = useAppendInfiniteList(config, data)

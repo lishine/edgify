@@ -5,7 +5,7 @@ import { useState } from 'reinspect'
 import { useUpdateEffect, useThrottleFn } from 'react-use'
 import _once from 'lodash/once'
 
-import { useGalleryContext } from '../../logic'
+import { useGalleryContext } from '../../_gallery'
 import { TRow, Config, Source } from '../../types'
 import { appendRowsMasonry } from './appendRowsMasonry'
 

@@ -6,7 +6,7 @@ import { InfiniteList } from './List/InfiniteList'
 import { Progress } from './Progress'
 import { Title } from './Title'
 
-import { Provider } from '../logic'
+import { Provider } from '../_gallery'
 import { Config } from '../types'
 
 export const Gallery: FC<Config> = (props) => (

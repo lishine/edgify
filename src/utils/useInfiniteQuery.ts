@@ -30,8 +30,8 @@ export const useInfiniteQuery = (query: any, variables: any, fetch?: any, option
         'useInfiniteQuery'
     )
 
-    const { data, isFetching } = useQuery(
-        query && [...query, state.fetchingMore ? state.page + 1 : state.page],
+    const { data, isFetching, status } = useQuery(
+        !!query && [...query, state.fetchingMore ? state.page + 1 : state.page],
         variables,
         fetch,
         {
@@ -44,12 +44,11 @@ export const useInfiniteQuery = (query: any, variables: any, fetch?: any, option
             ..._options,
         }
     )
-    console.log('isFetching', isFetching)
+
     // isLoading Delay transition to false
-    const [isLoading] = useDebounce(isFetching, isLoadingDelayTransitionToLow, {
-        leading: isFetching === true,
+    const [isLoading] = useDebounce(status === 'loading', isLoadingDelayTransitionToLow, {
+        leading: status === 'loading',
     })
-    console.log('isLoading', isLoading)
 
     return {
         isLoading,

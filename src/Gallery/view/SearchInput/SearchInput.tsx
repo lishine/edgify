@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Input, InputProps, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/core'
 import { useDebounce, useUpdateEffect } from 'react-use'
-import { useGalleryContext } from '../../logic'
+import { useGalleryContext } from '../../_gallery'
 import { Icon, IconButton } from './Icon'
 
 export const SearchInput = (props: InputProps) => {

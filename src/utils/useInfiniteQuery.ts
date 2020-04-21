@@ -6,59 +6,54 @@ import { useQuery } from 'react-query'
 
 import { useReducer } from './useReducer'
 
-export const useInfiniteQuery = (query: any, variables: any, fetch?: any, _options: Record<string, any> = {}) => {
+export const useInfiniteQuery = (query: any, variables: any, fetch?: any, options?: Record<string, any>) => {
     if (typeof variables !== 'function') {
         variables = Array.isArray(variables) ? variables : [variables]
     } else {
+        options = fetch
         fetch = variables
         variables = []
     }
-    const { isLoadingDelayTransitionToLow = 50, ...options } = _options
+    options = options ?? fetch
+    const { isLoadingDelayTransitionToLow = 50, onSuccess, ..._options } = options ?? {}
 
     const [state, dispatch] = useReducer(
         (state, payload, initialState) => ({
-            startFetchingMore: () => ({ ...state, fetchingMore: true }),
-            startFetching: () => ({ ...initialState, fetching: true }),
-            fetchingSuccess: () => ({
+            fetchMore: () => ({ ...state, fetchingMore: true }),
+            fetchingMoreSuccess: () => ({
                 ...state,
-                page: state.fetchingMore ? state.page + 1 : state.page,
+                page: state.page + 1,
                 fetchingMore: false,
-                fetching: false,
-                data: payload,
             }),
         }),
-        { page: 1, fetching: false, fetchingMore: false, data: [] },
+        { page: 1, fetchingMore: false },
         'useInfiniteQuery'
     )
 
-    const { data, refetch } = useQuery(
-        query && [...query],
-        [...variables, state.fetchingMore ? state.page + 1 : state.page],
+    const { data, isFetching } = useQuery(
+        query && [...query, state.fetchingMore ? state.page + 1 : state.page],
+        variables,
         fetch,
-        Object.assign(options, { manual: true })
-    )
-    useUpdateEffect(() => {
-        dispatch({ type: 'fetchingSuccess', payload: data })
-    }, [data])
-
-    useDeepCompareEffectNoCheck(() => {
-        dispatch({ type: 'startFetching' })
-    }, [query])
-
-    useUpdateEffect(() => {
-        if (state.fetchingMore || state.fetching) {
-            refetch({ force: true })
+        {
+            onSuccess(_data: any) {
+                if (state.fetchingMore) {
+                    dispatch({ type: 'fetchingMoreSuccess' })
+                }
+                onSuccess && onSuccess(_data)
+            },
+            ..._options,
         }
-    }, [state.fetching, state.fetchingMore])
-
+    )
+    console.log('isFetching', isFetching)
     // isLoading Delay transition to false
-    const [isLoading] = useDebounce(state.fetching || state.fetchingMore, isLoadingDelayTransitionToLow, {
-        leading: state.fetching || state.fetchingMore === true,
+    const [isLoading] = useDebounce(isFetching, isLoadingDelayTransitionToLow, {
+        leading: isFetching === true,
     })
+    console.log('isLoading', isLoading)
 
     return {
         isLoading,
-        data: state.data,
-        fetchMore: useCallback(() => dispatch({ type: 'startFetchingMore' }), []),
+        data,
+        fetchMore: useCallback(() => dispatch({ type: 'fetchMore' }), []),
     }
 }

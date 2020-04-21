@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Input, InputProps, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/core'
 import { useDebounce, useUpdateEffect } from 'react-use'
 import { useGalleryContext } from '../../logic'

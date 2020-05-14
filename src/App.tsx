@@ -21,7 +21,7 @@ export default () => {
                                 WebkitAppearance: 'none',
                             },
                             body: {
-                                backgroundColor: 'green',
+                                backgroundColor: '#4FD1C5',
                             },
                         }}
                     />

@@ -1,10 +1,11 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect'
 import { useDebounce } from 'use-debounce'
 import { useUpdateEffect } from 'react-use'
 import { useQuery } from 'react-query'
 
 import { useReducer } from './useReducer'
+import { useDeepCompareUpdateEffectNoCheck } from './useDeepCompareUpdateEffectNoCheck'
 
 export const useInfiniteQuery = (query: any, variables: any, fetch?: any, options?: Record<string, any>) => {
     if (typeof variables !== 'function') {
@@ -25,13 +26,20 @@ export const useInfiniteQuery = (query: any, variables: any, fetch?: any, option
                 page: state.page + 1,
                 fetchingMore: false,
             }),
+            setQuery: () => ({
+                ...initialState,
+                query: payload,
+            }),
         }),
-        { page: 1, fetchingMore: false },
+        { page: 1, fetchingMore: false, query: [] },
         'useInfiniteQuery'
     )
+    useDeepCompareEffectNoCheck(() => {
+        dispatch({ type: 'setQuery', payload: query || [] })
+    }, [query])
 
-    const { data, isFetching, status } = useQuery(
-        !!query && [...query, state.fetchingMore ? state.page + 1 : state.page],
+    const { data, status } = useQuery(
+        state.query.length > 0 && [...state.query, state.fetchingMore ? state.page + 1 : state.page],
         variables,
         fetch,
         {

@@ -6,7 +6,7 @@ import { createContext } from '../lib/contextStore'
 import { Config } from './types'
 import { useReducer } from '../utils/useReducer'
 import { useInfiniteQuery } from '../utils/useInfiniteQuery'
-import { useAppendInfiniteList } from './view/List/InfiniteList'
+import { useAppendInfiniteList } from './view/List/useAppendInfiniteList'
 
 // images data comes with full height and width
 export const calcImageScaledHeight = (height: number, width: number, imageWidth: number) =>
@@ -22,7 +22,7 @@ export const prepareResults = (data: any, imageWidth: number) =>
 
 const fetchGallery = (key: any, searchTerm: string, config: Config, page: number) => {
     console.log('fetching', key, searchTerm, page)
-    return wretch(`${config.url}&per_page=${config.perPage}&page=${page + 1}&query=${searchTerm}`)
+    return wretch(`${config.url}&per_page=${config.perPage}&page=${page}&query=${searchTerm}`)
         .get()
         .setTimeout(1000)
         .json()
@@ -35,7 +35,7 @@ const useGalleryState = (config: Config) => {
             setLoading: () => ({ ...state, isLoading: payload }),
             setSearchTerm: () => ({ ...state, searchTerm: payload }),
         }),
-        { isLoading: false, searchTerm: 'b' },
+        { isLoading: false, searchTerm: 'london' },
         'gallery'
     )
 

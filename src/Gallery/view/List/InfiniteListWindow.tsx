@@ -1,13 +1,10 @@
 import React, { FC, useEffect, useMemo, useCallback, useRef } from 'react'
 import { Flex, Image } from '@chakra-ui/core'
 import { VariableSizeList } from 'react-window'
-import { useState } from 'reinspect'
-import { useUpdateEffect, useThrottleFn } from 'react-use'
 import _once from 'lodash/once'
 
 import { useGalleryContext } from '../../_gallery'
 import { TRow, Config, Source } from '../../types'
-import { appendRowsMasonry } from './appendRowsMasonry'
 
 interface ItemData {
     rows: TRow[]
@@ -34,22 +31,7 @@ const Row: FC<{ index: number; style: any; data: ItemData }> = React.memo(({ ind
     )
 })
 
-export const useAppendInfiniteList = (config: Config, results: Source[]) => {
-    const [rows, setRows] = useState([] as TRow[], 'useTransformList:setRows')
-
-    useUpdateEffect(() => {
-        setRows((rows) => appendRowsMasonry(results, rows, config.nCols))
-    }, [results, setRows, config])
-
-    return {
-        rows,
-        reset: useCallback(() => {
-            setRows([])
-        }, []),
-    }
-}
-
-export const InfiniteList = () => {
+export const InfiniteListWindow = ({ parentRef }: any) => {
     const config = useGalleryContext((state) => state.config)
     const rows = useGalleryContext((state) => state.rows)
     const fetchMore = useGalleryContext((state) => state.fetchMore)
@@ -65,7 +47,7 @@ export const InfiniteList = () => {
     }
 
     const { imageWidth, gapY, height, overscanCount } = config
-    const width = window.innerWidth
+    const width = 550
     const itemSize = (i: number) => rows[i].height + gapY
     const itemCount = rows.length
     const estimatedItemSize = Math.round(imageWidth * 1.5)
@@ -73,6 +55,8 @@ export const InfiniteList = () => {
     console.log('rendering List')
     return (
         <VariableSizeList
+            // outerRef={parentRef}
+            // style={{ overflow: 'hidden' }}
             itemData={itemData}
             overscanCount={overscanCount}
             estimatedItemSize={estimatedItemSize}

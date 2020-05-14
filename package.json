@@ -24,6 +24,7 @@
         "react-query-devtools": "^1.1.0",
         "react-scripts": "3.4.1",
         "react-use": "^14.1.1",
+        "react-virtual": "^2.1.10",
         "react-window": "^1.8.5",
         "reinspect": "^1.1.0",
         "swr": "^0.2.0",

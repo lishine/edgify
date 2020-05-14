@@ -1,6 +1,6 @@
 import { theme as defaultTheme } from '@chakra-ui/core'
 
-// console.log(JSON.stringify(defaultTheme, 0, 2))
+// console.log(JSON.stringify(defaultTheme, null, 2))
 
 export const theme = {
     ...defaultTheme,

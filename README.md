@@ -2,7 +2,7 @@
 
 -   https://github.com/A11yance/aria-query#elements-to-roles
 
-### TODO
+## TODO
 
 -   central state
 -   cache
@@ -23,16 +23,18 @@
 -   urls lazy load
 -   images lazy load
 
--   react-query dev-toold
+### Dev
+
+-   react-query dev-tools
 -   reducer dev-tools
 -   print action to redux-devtools
 -   typescript: reducer payload types and not allow other init state fields
 -   CRA - override eslint settings
 -   typescript: react-query
 
-### Hooks variants
+## Hooks variants
 
-## Debounce
+### Debounce
 
 -   https://github.com/xnimorz/use-debounce
     -   useDebounce
@@ -41,7 +43,7 @@
     -   useDebounce
 -   useDebounceFnWhen
 
-## Throttle
+### Throttle
 
 -   react-use
     -   useThrottle

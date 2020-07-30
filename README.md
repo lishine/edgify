@@ -1,51 +1,57 @@
-### Testing
+# Unsplash search
 
--   https://github.com/A11yance/aria-query#elements-to-roles
+## Demo
+![Demo](https://github.com/lishine/unsplash-search/blob/master/screenshot.png "Demo")
 
 ## TODO
 
--   central state
--   cache
--   performance
--   more tests
--   input auto focus
--   parametrized most
--   masonry displacement algoritm
+- central state
+- cache
+- performance
+- more tests
+- input auto focus
+- parametrized most
+- masonry displacement algoritm
 
 ### Infinite loading
 
--   load more mechanizm
--   window larger than screen
--   images enable alt
--   images substute while image itself loaded
--   urls preload
--   images preload
--   urls lazy load
--   images lazy load
+- load more mechanizm
+- window larger than screen
+- images enable alt
+- images substute while image itself loaded
+- urls preload
+- images preload
+- urls lazy load
+- images lazy load
 
 ### Dev
 
--   react-query dev-tools
--   reducer dev-tools
--   print action to redux-devtools
--   typescript: reducer payload types and not allow other init state fields
--   CRA - override eslint settings
--   typescript: react-query
+- react-query dev-tools
+- reducer dev-tools
+- print action to redux-devtools
+- typescript: reducer payload types and not allow other init state fields
+- CRA - override eslint settings
+- typescript: react-query
 
-## Hooks variants
+## Info
 
-### Debounce
+### Testing
+- <https://github.com/A11yance/aria-query#elements-to-roles>
 
--   https://github.com/xnimorz/use-debounce
-    -   useDebounce
-        useDebounceCallback
--   react-use
-    -   useDebounce
--   useDebounceFnWhen
+### Hooks variants
 
-### Throttle
+#### Debounce
 
--   react-use
-    -   useThrottle
-    -   useThrottleFn
-    -   lodash throttle: useRef({ fetchMore: \_throttle(fn, ms, { wait, leading, trailing }) })
+- <https://github.com/xnimorz/use-debounce>
+- useDebounce
+  - useDebounceCallback
+- react-use
+  - useDebounce
+- useDebounceFnWhen
+
+#### Throttle
+
+- react-use
+  - useThrottle
+  - useThrottleFn
+  - lodash throttle: useRef({ fetchMore: \_throttle(fn, ms, { wait, leading, trailing }) })

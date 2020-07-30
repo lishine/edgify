@@ -1,7 +1,7 @@
 # Unsplash search
 
 ## Demo
-![Demo](https://github.com/lishine/unsplash-search/blob/master/screenshot.png "Demo")
+![Demo](https://github.com/lishine/unsplash-search/blob/dev/screenshot.png "Demo")
 
 ## TODO
 
